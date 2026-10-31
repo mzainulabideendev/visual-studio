@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'" />
+    <title>Visual Studio Installer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="titlebar">
+        <div class="brand">
+          <span class="brand-mark">VS</span>
+          <span>Visual Studio Installer</span>
+        </div>
+        <div class="titlebar-actions">
+          <button id="minBtn" class="win-btn" title="Minimize">–</button>
+          <button id="closeBtn" class="win-btn close" title="Close">×</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="product">
+          <div class="product-head">
+            <span class="product-logo">VS</span>
+            <div>
+              <div class="product-name">Visual Studio Clone</div>
+              <div class="product-edition">Community 2026</div>
+            </div>
+          </div>
+
+          <div class="product-state">
+            <span class="dot" id="stateDot"></span>
+            <span id="stateText">Not installed</span>
+          </div>
+
+          <div class="product-meta">
+            <div class="meta-row"><span>Version</span><b>1.0.0</b></div>
+            <div class="meta-row"><span>Channel</span><b>Stable</b></div>
+            <div class="meta-row"><span>Size</span><b id="sizeValue">…</b></div>
+          </div>
+
+          <label class="toggle">
+            <input type="checkbox" id="desktopShortcut" checked />
+            <span>Create a desktop shortcut</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="startShortcut" checked />
+            <span>Add to Start menu</span>
+          </label>
+
+          <div class="product-foot">
+            Includes the IDE shell, C# / .NET project system, NuGet, Git and the extension manager.
+          </div>
+        </aside>
+
+        <section class="content">
+          <nav class="tabs">
+            <button class="tab active" data-tab="workloads">Workloads</button>
+            <button class="tab" data-tab="components">Individual components</button>
+            <button class="tab" data-tab="location">Installation locations</button>
+          </nav>
+
+          <div class="panel" id="panel-workloads">
+            <p class="hint">Select the workloads you want to install. You can change these later.</p>
+            <div class="list" id="workloadList"></div>
+
+            <div class="prereq">
+              <div class="prereq-head">
+                <span>Prerequisites on this computer</span>
+                <button id="refreshBtn" class="link">Refresh</button>
+              </div>
+              <div id="prereqList" class="prereq-list"></div>
+            </div>
+          </div>
+
+          <div class="panel hidden" id="panel-components">
+            <p class="hint">Fine-tune individual features of the IDE.</p>
+            <div class="list compact" id="componentList"></div>
+          </div>
+
+          <div class="panel hidden" id="panel-location">
+            <p class="hint">Choose where Visual Studio Clone is installed.</p>
+            <label class="field-label" for="installPath">Installation path</label>
+            <div class="path-row">
+              <input id="installPath" spellcheck="false" />
+              <button id="browseBtn" class="secondary">…</button>
+            </div>
+            <div class="hint" id="pathHint"></div>
+
+            <div class="locations">
+              <div class="loc-row"><span>IDE</span><code id="locIde">—</code></div>
+              <div class="loc-row"><span>Shared components</span><code id="locShared">—</code></div>
+              <div class="loc-row"><span>Cache</span><code id="locCache">—</code></div>
+            </div>
+          </div>
+
+          <div class="error hidden" id="errorBox"></div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="summary" id="summary">Calculating required space…</div>
+        <div class="actions">
+          <button id="installBtn" class="primary" disabled>Install</button>
+          <button id="cancelBtn" class="secondary">Close</button>
+        </div>
+      </footer>
+
+      <div class="overlay hidden" id="progressOverlay">
+        <div class="overlay-card">
+          <div class="overlay-title">Installing Visual Studio Clone</div>
+          <div class="overlay-step" id="progressStep">Preparing…</div>
+          <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+          <div class="overlay-detail" id="progressDetail"></div>
+        </div>
+      </div>
+
+      <div class="overlay hidden" id="doneOverlay">
+        <div class="overlay-card done">
+          <div class="done-check">✓</div>
+          <div class="overlay-title">Installation complete</div>
+          <div class="overlay-step" id="doneDetail">Visual Studio Clone is ready.</div>
+          <div class="overlay-actions">
+            <button id="launchBtn" class="primary">Launch</button>
+            <button id="doneBtn" class="secondary">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

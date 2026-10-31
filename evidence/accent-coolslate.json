@@ -1,0 +1,14 @@
+{
+ "ShellInternal": {
+  "EnvironmentBackground": "#41342b",
+  "EnvironmentBody": "#41342b",
+  "EnvironmentBorder": "#cec0b5",
+  "EnvironmentHeader": "#2b2724",
+  "EnvironmentHeaderInactive": "#2b2724",
+  "EnvironmentIndicator": "#cec0b560",
+  "EnvironmentLayeredBackground": "#0000004d",
+  "EnvironmentLogo": "#cec0b5",
+  "EnvironmentTab": "#2b2724",
+  "EnvironmentTabInactive": "#2b2724"
+ }
+}

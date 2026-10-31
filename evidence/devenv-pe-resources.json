@@ -1,0 +1,49 @@
+{
+  "note": "Trimmed copy of the REA `inspect_pe_resources` result. The complete record stays in the REA evidence ledger under the id below.",
+  "tool": "rea.inspect_pe_resources",
+  "evidence_id": "ev_37f9aeda02e16dc0b41b4f280246fd4bafe21fb09763550b05517bd951cb6ea6",
+  "provider": { "id": "rea-pe-resources", "name": "REA PE resource parser", "version": "1" },
+  "subject": {
+    "name": "devenv.exe",
+    "local_path": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\devenv.exe",
+    "format": "pe",
+    "architecture": "x86_64",
+    "digest": { "sha256": "1b2afedb69a2899f8c713510c653cbfaa61198a0aa1c665424b9dc56090fb599" }
+  },
+  "pe": { "format": "pe32-plus", "machine": 34404, "bytes": 1010520 },
+  "version_info": {
+    "ProductName": "Microsoft Visual Studio",
+    "FileDescription": "Microsoft Visual Studio",
+    "ProductVersion": "18.10.12217.157",
+    "CompanyName": "Microsoft Corporation"
+  },
+  "icon_groups": [
+    {
+      "resource_index": 41,
+      "images": [
+        { "width": 256, "bit_count": 32, "encoding": "png", "declared_bytes": 49160, "resource_id": 1 },
+        { "width": 96, "height": 96, "bit_count": 32, "declared_bytes": 38056, "resource_id": 2 },
+        { "width": 80, "height": 80, "bit_count": 32, "declared_bytes": 26600, "resource_id": 3 },
+        { "width": 72, "height": 72, "bit_count": 32, "declared_bytes": 21640, "resource_id": 4 },
+        { "width": 64, "height": 64, "bit_count": 32, "declared_bytes": 16936, "resource_id": 5 },
+        { "width": 60, "height": 60, "bit_count": 32, "declared_bytes": 14920, "resource_id": 6 },
+        { "width": 48, "height": 48, "bit_count": 32, "declared_bytes": 9640, "resource_id": 7 },
+        { "width": 40, "height": 40, "bit_count": 32, "declared_bytes": 6760, "resource_id": 8 },
+        { "width": 32, "height": 32, "bit_count": 32, "declared_bytes": 4264, "resource_id": 9 },
+        { "width": 24, "height": 24, "bit_count": 32, "declared_bytes": 2440, "resource_id": 10 },
+        { "width": 20, "height": 20, "bit_count": 32, "declared_bytes": 1720, "resource_id": 11 },
+        { "width": 16, "height": 16, "bit_count": 32, "declared_bytes": 1128, "resource_id": 12 }
+      ]
+    },
+    { "resource_index": 42, "note": "secondary icon group (8-bit + 32-bit variants), not used" },
+    { "resource_index": 43, "note": "secondary icon group, not used" }
+  ],
+  "extraction": {
+    "method": "scan the PE image for PNG signatures and cut each blob at IEND",
+    "tool": "tools/extract-pngs.mjs",
+    "outputs": [
+      "evidence/icon/icon-256x256-0.png (49160 bytes, used as app icon)",
+      "evidence/icon/devenv-32.png (ExtractAssociatedIcon, 32x32)"
+    ]
+  }
+}

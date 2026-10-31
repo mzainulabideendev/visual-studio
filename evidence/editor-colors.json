@@ -1,0 +1,70 @@
+{
+ "Text Editor MEF Items": {},
+ "Text Editor Text Marker Items": {
+  "Read-Only Region": "#5a5a5a"
+ },
+ "Text Editor Language Service Items": {},
+ "FSharpInteractive": {
+  "Plain Text": "#282828",
+  "Selected Text": "#ff9933"
+ },
+ "WebClient Diagnostic Tools": {
+  "Plain Text": "#302d2d",
+  "Console Input Text": "#302d2d",
+  "Console Output Text": "#302d2d",
+  "Console Info Text": "#302d2d",
+  "Console Error Text": "#302d2d",
+  "Console Warning Text": "#302d2d"
+ },
+ "Text Editor Text Manager Items": {
+  "Plain Text": "#1e1e1e",
+  "Selected Text": "#ff9933"
+ },
+ "Find Results": {
+  "Plain Text": "#282828",
+  "Selected Text": "#ff9933"
+ },
+ "Immediate Window": {
+  "Plain Text": "#282828",
+  "Selected Text": "#ff9933"
+ },
+ "Output Window": {
+  "Plain Text": "#282828",
+  "Selected Text": "#ff9933"
+ },
+ "Folder Difference": {
+  "Different content": "#ffffff",
+  "Identical content": "#ffffff",
+  "Source Only": "#ffffff",
+  "Target Only": "#ffffff",
+  "Not Downloaded": "#ffffff",
+  "Even Row Items": "#ffffff",
+  "Odd Row Items": "#ffffff"
+ },
+ "Command Window": {
+  "Plain Text": "#282828",
+  "Selected Text": "#ff9933"
+ },
+ "Package Manager Console": {
+  "Plain Text": "#282828",
+  "Selected Text": "#ff9933"
+ },
+ "Autos": {},
+ "Locals": {},
+ "Watch": {},
+ "Performance Tips": {},
+ "Editor Tooltip": {
+  "Plain Text": "#454242"
+ },
+ "SQL Results - Text": {
+  "Plain Text": "#302d2d"
+ },
+ "SQL Results - Grid": {
+  "Header Row": "#282828",
+  "Selected Cell": "#ff9933",
+  "Inactive Selected Cell": "#463f3f",
+  "Null Value Cell": "#302d2d",
+  "Grid Cell": "#302d2d"
+ },
+ "CodeSense": {}
+}

@@ -1,0 +1,18 @@
+{
+ "$RootKey$\\BrokeredServices\\Microsoft.VisualStudio.LanguageServices.SolutionAssetProvider": {},
+ "$RootKey$\\BrokeredServices\\Microsoft.VisualStudio.LanguageServices.WorkspaceProjectFactoryService": {},
+ "$RootKey$\\BrokeredServices\\Microsoft.CodeAnalysis.LanguageServer.ManagedHotReloadLanguageService\\0.1": {},
+ "$RootKey$\\Menus": {},
+ "$RootKey$\\UIContextRules\\{0c89ae24-6d19-474c-a3aa-dc3b66fdbb5f}": {},
+ "$RootKey$\\Debugger\\ManagedHotReload\\LanguageServices\\{882A9AD6-1F3B-4AC0-BABC-DD6DB41714E7}": {},
+ "$RootKey$\\FeatureFlags\\Roslyn\\LSP\\Editor": {},
+ "$RootKey$\\FeatureFlags\\Roslyn\\LSP\\SemanticTokens": {},
+ "$RootKey$\\FeatureFlags\\Roslyn\\SemanticSearchEnabled": {},
+ "$RootKey$\\FeatureFlags\\Roslyn\\CopilotRenameGetContext": {},
+ "$RootKey$\\FeatureFlags\\Lsp\\PullDiagnostics": {},
+ "$RootKey$\\ToolWindows\\{60a19d42-2dd7-43f3-be90-c7a9cb7d28f4}": {},
+ "$RootKey$\\ToolWindows\\{7FF2AB69-0A20-4BF5-BAEF-24D9EB6969E1}": {},
+ "$RootKey$\\Services\\{89e9dfce-d0f3-48c4-be76-140d5cce69ef}": {},
+ "$RootKey$\\SettingsManifests\\{6cf2e545-6109-4730-8883-cf43d7aec3e1}": {},
+ "Roslyn Text Editor MEF Items": {}
+}

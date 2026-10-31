@@ -1,0 +1,44 @@
+name: Linux build
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  linux-x64:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Package AppImage and deb
+        run: npx electron-builder --linux AppImage deb --x64 --config.directories.output=Release/linux
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create portable tar.gz
+        run: node tools/pack-linux-tar.mjs --dir Release/linux/linux-unpacked
+
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: VisualStudioClone-linux-x64
+          path: |
+            Release/linux/*.AppImage
+            Release/linux/*.deb
+            Release/*.tar.gz
+          if-no-files-found: error

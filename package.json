@@ -1,0 +1,103 @@
+{
+  "name": "visual-studio-clone",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A Visual Studio 2026 style IDE shell reconstructed from the installed Visual Studio 18.10 shell theme and resources.",
+  "author": "Visual Studio Clone",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "node dev.mjs",
+    "build": "tsc -b && vite build",
+    "preview": "node server/index.mjs --serve",
+    "start": "npm run dev",
+    "electron": "electron .",
+    "package": "node tools/make-ico.mjs public/vs-icon.png public/vs-icon.ico && electron-packager . --platform=win32 --arch=x64 --out=Release --overwrite --icon=public/vs-icon.ico --app-copyright=\"Visual Studio Clone\" --ignore=\"^/(Release|Release3|installer|evidence|docs|src|tools|sample|dist/sw.*|dev\\.mjs|menu-.*\\.mjs|np-test.*\\.mjs|run-test\\.mjs|installed-test\\.mjs|ext-test\\.mjs|nuget-test\\.mjs|installer-test\\.mjs)\"",
+    "package:linux": "electron-packager . --platform=linux --arch=x64 --out=Release --overwrite --icon=public/vs-icon-512.png --app-copyright=\"Visual Studio Clone\" --ignore=\"^/(Release|Release3|installer|evidence|docs|src|tools|sample|dist/sw.*|dev\\.mjs|menu-.*\\.mjs|np-test.*\\.mjs|run-test\\.mjs|installed-test\\.mjs|ext-test\\.mjs|nuget-test\\.mjs|installer-test\\.mjs)\"",
+    "package:linux:arm64": "electron-packager . --platform=linux --arch=arm64 --out=Release --overwrite --icon=public/vs-icon-512.png --app-copyright=\"Visual Studio Clone\" --ignore=\"^/(Release|Release3|installer|evidence|docs|src|tools|sample|dist/sw.*|dev\\.mjs|menu-.*\\.mjs|np-test.*\\.mjs|run-test\\.mjs|installed-test\\.mjs|ext-test\\.mjs|nuget-test\\.mjs|installer-test\\.mjs)\"",
+    "dist:linux": "npm run build && electron-builder --linux --x64 --config.directories.output=Release/linux",
+    "dist:linux:arm64": "npm run build && electron-builder --linux --arm64 --config.directories.output=Release/linux",
+    "release:linux": "node tools/build-linux.mjs",
+    "installer": "npm run build && electron-builder --win nsis",
+    "installer:dev": "electron installer",
+    "build:installer": "node tools/build-installer.mjs"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "express": "^4.21.2",
+    "monaco-editor": "^0.52.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^45.1.0",
+    "electron-packager": "^17.1.2",
+    "electron-builder": "^26.18.0",
+    "puppeteer-core": "^25.16.0",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7"
+  },
+  "build": {
+    "appId": "com.vsclone.ide",
+    "productName": "Visual Studio Clone",
+    "copyright": "Visual Studio Clone",
+    "asar": false,
+    "directories": {
+      "output": "Release/installer",
+      "buildResources": "public"
+    },
+    "files": [
+      "dist/**/*",
+      "server/**/*",
+      "electron/**/*",
+      "public/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "public/vs-icon.ico"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "Development",
+      "icon": "public/vs-icon-512.png",
+      "synopsis": "Visual Studio style IDE shell",
+      "description": "A Visual Studio 2026 style IDE shell reconstructed from the installed Visual Studio 18.10 shell theme and resources.",
+      "artifactName": "VisualStudioClone-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Visual Studio Clone",
+      "artifactName": "VisualStudioClone-Setup-${version}.${ext}"
+    }
+  }
+}

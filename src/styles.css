@@ -1,0 +1,2182 @@
+/* Visual Studio 18.10 shell — layout and chrome.
+   Colors come from the CSS variables emitted by src/theme.ts, which are decoded
+   from Theme.Dark.pkgdef / Shell.Dark.pkgdef (see README.md). */
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  -webkit-font-smoothing: antialiased;
+  background: var(--vs-env-background, #1f1f1f);
+  color: var(--vs-text-primary, #fff);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: default;
+}
+
+input {
+  font: inherit;
+  color: inherit;
+}
+
+kbd,
+.vs-key {
+  font-family: inherit;
+  font-size: 10.5px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--vs-control-fill, #ffffff0f);
+  border: 1px solid var(--vs-control-stroke, #ffffff12);
+  color: var(--vs-text-secondary, #ffffffc8);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--vs-scroll-thumb);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vs-scroll-thumb-hover);
+  background-clip: content-box;
+}
+
+.vs-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--vs-env-background);
+  color: var(--vs-text-primary);
+}
+
+/* ---------------------------------------------------------------- title bar */
+
+.vs-titlebar {
+  display: flex;
+  align-items: center;
+  height: 34px;
+  flex: 0 0 34px;
+  background: var(--vs-header);
+  border-bottom: 1px solid var(--vs-divider);
+  padding-left: 8px;
+  gap: 2px;
+  user-select: none;
+}
+
+.vs-titlebar-logo {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+.vs-menubar {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.vs-menu-title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 3px;
+  color: var(--vs-command-bar-text);
+  white-space: nowrap;
+}
+
+.vs-menu-title:hover,
+.vs-menu-title.active {
+  background: var(--vs-command-bar-hover);
+  color: var(--vs-text-primary);
+}
+
+.vs-menu-popup {
+  position: absolute;
+  top: 27px;
+  left: 0;
+  min-width: 230px;
+  background: var(--vs-menu-bg);
+  border: 1px solid var(--vs-menu-border);
+  border-radius: 4px;
+  padding: 4px;
+  z-index: 400;
+  box-shadow: 0 6px 18px #00000066;
+  color: var(--vs-text-primary);
+}
+
+.vs-menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 8px 0 2px;
+  border-radius: 3px;
+  white-space: nowrap;
+  gap: 6px;
+}
+
+.vs-menu-item:hover,
+.vs-menu-item.open {
+  background: var(--vs-menu-hover);
+}
+
+.vs-menu-item.disabled {
+  color: var(--vs-text-disabled);
+}
+
+.vs-menu-check {
+  width: 14px;
+  text-align: center;
+  color: var(--vs-accent);
+  font-size: 11px;
+}
+
+.vs-menu-label {
+  flex: 1;
+  padding-right: 22px;
+}
+
+.vs-menu-shortcut {
+  color: var(--vs-text-tertiary);
+  font-size: 11px;
+  padding-left: 18px;
+}
+
+.vs-menu-arrow {
+  display: flex;
+  color: var(--vs-text-tertiary);
+}
+
+.vs-menu-sep {
+  height: 1px;
+  background: var(--vs-menu-separator);
+  margin: 4px 6px;
+}
+
+.vs-submenu {
+  position: absolute;
+  left: 100%;
+  top: -5px;
+  margin-left: 2px;
+  min-width: 210px;
+  background: var(--vs-menu-bg);
+  border: 1px solid var(--vs-menu-border);
+  border-radius: 4px;
+  padding: 4px;
+  box-shadow: 0 6px 18px #00000066;
+}
+
+.vs-titlebar-search {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 24px;
+  width: 330px;
+  margin-left: auto;
+  margin-right: 10px;
+  padding: 0 8px;
+  border-radius: 4px;
+  background: var(--vs-control-fill);
+  border: 1px solid var(--vs-control-stroke);
+  color: var(--vs-text-tertiary);
+}
+
+.vs-titlebar-search:hover {
+  background: var(--vs-control-fill-hover);
+  color: var(--vs-text-secondary);
+}
+
+.vs-titlebar-search span {
+  flex: 1;
+  text-align: left;
+}
+
+.vs-titlebar-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 2px;
+}
+
+.vs-copilot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 9px;
+  border-radius: 12px;
+  border: 1px solid var(--vs-control-stroke);
+  background: var(--vs-control-fill);
+  color: var(--vs-accent-text);
+}
+
+.vs-copilot:hover {
+  background: var(--vs-control-fill-hover);
+}
+
+.vs-account {
+  width: 30px;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.vs-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--vs-accent);
+  color: var(--vs-on-accent);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.vs-avatar.small {
+  width: 22px;
+  height: 22px;
+}
+
+.vs-avatar.large {
+  width: 44px;
+  height: 44px;
+  font-size: 16px;
+}
+
+.vs-account-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.vs-account.open,
+.vs-account:hover {
+  background: var(--vs-control-fill-hover);
+}
+
+img.vs-avatar {
+  object-fit: cover;
+}
+
+.vs-avatar.signed-out {
+  background: var(--vs-control-fill);
+  border: 1px solid var(--vs-control-stroke);
+  color: var(--vs-text-secondary);
+}
+
+.vs-account-pop {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  width: 290px;
+  padding: 10px;
+  z-index: 600;
+  background: var(--vs-menu-bg);
+  border: 1px solid var(--vs-menu-border);
+  border-radius: 6px;
+  box-shadow: 0 10px 28px #00000080;
+  color: var(--vs-text-primary);
+}
+
+.vs-account-pop-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 2px 4px;
+}
+
+.vs-account-pop-identity {
+  min-width: 0;
+}
+
+.vs-account-pop-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vs-account-pop-login {
+  font-size: 11.5px;
+  color: var(--vs-text-tertiary);
+}
+
+.vs-account-pop-sep {
+  height: 1px;
+  margin: 6px 0;
+  background: var(--vs-menu-separator);
+}
+
+.vs-account-pop-item {
+  display: block;
+  width: 100%;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 3px;
+  text-align: left;
+  color: var(--vs-text-primary);
+}
+
+.vs-account-pop-item:hover {
+  background: var(--vs-menu-hover);
+}
+
+.vs-account-pop-head {
+  margin-bottom: 4px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.vs-account-pop-note {
+  margin: 0 0 10px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--vs-text-secondary);
+}
+
+.vs-account-pop-signin {
+  width: 100%;
+}
+
+.vs-pin {
+  width: 26px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  color: var(--vs-text-tertiary);
+  border-radius: 3px;
+}
+
+.vs-pin:hover {
+  background: var(--vs-command-bar-hover);
+}
+
+.vs-window-controls {
+  display: flex;
+  height: 100%;
+  margin-left: 4px;
+}
+
+.vs-window-controls button {
+  width: 42px;
+  display: grid;
+  place-items: center;
+  color: var(--vs-text-secondary);
+}
+
+.vs-window-controls button:hover {
+  background: var(--vs-command-bar-hover);
+}
+
+.vs-window-controls .close:hover {
+  background: #c42b1c;
+  color: #fff;
+}
+
+/* ----------------------------------------------------------------- toolbar */
+
+.vs-toolbar {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  flex: 0 0 38px;
+  padding: 0 8px;
+  gap: 3px;
+  background: var(--vs-header);
+  border-bottom: 1px solid var(--vs-divider);
+  user-select: none;
+}
+
+.vs-toolbar-nav,
+.vs-start-group {
+  display: flex;
+  align-items: center;
+}
+
+.vs-tool-btn {
+  display: grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 4px;
+  border-radius: 3px;
+  color: var(--vs-command-bar-text);
+}
+
+.vs-tool-btn:hover:not(:disabled) {
+  background: var(--vs-command-bar-hover);
+  color: var(--vs-text-primary);
+}
+
+.vs-tool-btn.on {
+  background: var(--vs-control-fill);
+  color: var(--vs-text-primary);
+}
+
+.vs-tool-btn:disabled {
+  color: var(--vs-text-disabled);
+}
+
+.vs-toolbar-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--vs-divider);
+  margin: 0 4px;
+}
+
+.vs-start-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px 0 8px;
+  border-radius: 3px 0 0 3px;
+  background: var(--vs-control-fill);
+  border: 1px solid var(--vs-control-stroke);
+  border-right: none;
+  color: var(--vs-text-primary);
+}
+
+.vs-start-btn svg {
+  color: var(--vs-success);
+}
+
+.vs-start-btn.active svg {
+  color: var(--vs-accent);
+}
+
+.vs-start-btn:hover:not(:disabled) {
+  background: var(--vs-control-fill-hover);
+}
+
+.vs-start-btn:disabled {
+  color: var(--vs-text-disabled);
+}
+
+.vs-start-btn:disabled svg {
+  color: var(--vs-text-disabled);
+}
+
+.vs-start-more {
+  width: 20px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--vs-control-stroke);
+  border-left: 1px solid var(--vs-control-stroke);
+  border-radius: 0 3px 3px 0;
+  background: var(--vs-control-fill);
+  color: var(--vs-text-secondary);
+}
+
+.vs-combo {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 3px;
+  color: var(--vs-command-bar-text);
+}
+
+.vs-combo:hover:not(:disabled) {
+  background: var(--vs-command-bar-hover);
+}
+
+.vs-combo:disabled {
+  color: var(--vs-text-disabled);
+}
+
+.vs-combo-label {
+  font-size: 11.5px;
+}
+
+.vs-toolbar-spacer {
+  flex: 1;
+}
+
+/* -------------------------------------------------------------------- body */
+
+.vs-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.vs-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.vs-dock {
+  display: flex;
+  flex-direction: column;
+  background: var(--vs-env-background);
+  min-height: 0;
+}
+
+.vs-dock-left {
+  width: 292px;
+  flex: 0 0 292px;
+  border-right: 1px solid var(--vs-panel-border);
+}
+
+.vs-dock-right {
+  width: 268px;
+  flex: 0 0 268px;
+  border-left: 1px solid var(--vs-panel-border);
+}
+
+.vs-dock-tabs {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  flex: 0 0 32px;
+  background: var(--vs-file-tab);
+  border-bottom: 1px solid var(--vs-panel-border);
+  padding: 0 4px;
+  gap: 1px;
+}
+
+.vs-dock-tab {
+  height: 100%;
+  padding: 0 12px;
+  color: var(--vs-file-tab-text);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.vs-dock-tab:hover {
+  color: var(--vs-file-tab-text-active);
+  background: var(--vs-file-tab-hover-bg);
+}
+
+.vs-dock-tab.active {
+  color: var(--vs-file-tab-text-active);
+  background: var(--vs-env-background);
+  border-bottom-color: var(--vs-accent);
+}
+
+.vs-dock-tab-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 2px;
+}
+
+.vs-icon-btn {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  color: var(--vs-text-tertiary);
+}
+
+.vs-icon-btn:hover:not(:disabled) {
+  background: var(--vs-command-bar-hover);
+  color: var(--vs-text-primary);
+}
+
+.vs-icon-btn:disabled {
+  color: var(--vs-text-disabled);
+}
+
+.vs-toolwindow {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.vs-toolwindow-toolbar {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  flex: 0 0 30px;
+  padding: 0 4px;
+  gap: 1px;
+  border-bottom: 1px solid var(--vs-divider);
+}
+
+.vs-tree-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 8px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 3px;
+  background: var(--vs-combo-bg);
+  border: 1px solid var(--vs-combo-border);
+  color: var(--vs-text-tertiary);
+}
+
+.vs-tree-search input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--vs-text-primary);
+  font-size: 11.5px;
+}
+
+.vs-tree {
+  flex: 1;
+  overflow: auto;
+  padding-bottom: 8px;
+}
+
+.vs-tree-row {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  gap: 4px;
+  padding-right: 8px;
+  white-space: nowrap;
+  color: var(--vs-text-primary);
+}
+
+.vs-tree-row:hover {
+  background: var(--vs-list-hover);
+}
+
+.vs-tree-row.selected {
+  background: var(--vs-list-hover);
+  box-shadow: inset 2px 0 0 var(--vs-accent);
+}
+
+.vs-tree-solution {
+  font-weight: 600;
+  height: 24px;
+}
+
+.vs-tree-solution-count {
+  color: var(--vs-text-tertiary);
+  font-size: 11px;
+  padding-bottom: 3px;
+}
+
+.vs-tree-chevron {
+  width: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--vs-tree-glyph);
+  flex: 0 0 12px;
+}
+
+.vs-folder-icon {
+  color: #dcb67a;
+  display: grid;
+  place-items: center;
+}
+
+.vs-file-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 17px;
+  height: 14px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  flex: 0 0 auto;
+}
+
+.vs-tree-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vs-git-mark {
+  margin-left: auto;
+  color: var(--vs-accent);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.vs-tree-placeholder {
+  padding: 18px 14px;
+  color: var(--vs-text-tertiary);
+  line-height: 1.6;
+}
+
+.vs-tree-empty {
+  color: var(--vs-text-disabled);
+  padding-top: 4px;
+  font-style: italic;
+}
+
+.vs-link-btn {
+  color: var(--vs-link);
+  margin-top: 8px;
+}
+
+.vs-link-btn:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------ editor + tabs */
+
+.vs-editor-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--vs-editor-bg);
+}
+
+.vs-tabstrip {
+  display: flex;
+  align-items: stretch;
+  height: 34px;
+  flex: 0 0 34px;
+  background: var(--vs-file-tab);
+  border-bottom: 1px solid var(--vs-panel-border);
+}
+
+.vs-tabs {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.vs-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.vs-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 108px;
+  max-width: 220px;
+  padding: 0 6px 0 10px;
+  background: var(--vs-file-tab);
+  border-right: 1px solid var(--vs-divider);
+  border-top: 2px solid transparent;
+  color: var(--vs-file-tab-text);
+}
+
+.vs-tab:hover {
+  background: var(--vs-file-tab-hover-bg);
+  color: var(--vs-file-tab-text-active);
+}
+
+.vs-tab.active {
+  background: var(--vs-file-tab-active);
+  color: var(--vs-file-tab-text-active);
+  border-top-color: var(--vs-file-tab-border);
+}
+
+.vs-tab.preview .vs-tab-name {
+  font-style: italic;
+}
+
+.vs-tab-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vs-tab-close {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 3px;
+  color: var(--vs-text-tertiary);
+  opacity: 0;
+}
+
+.vs-tab:hover .vs-tab-close,
+.vs-tab.active .vs-tab-close {
+  opacity: 1;
+}
+
+.vs-tab-close:hover {
+  background: var(--vs-list-selected);
+  color: var(--vs-text-primary);
+}
+
+.vs-tabstrip-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  border-left: 1px solid var(--vs-divider);
+}
+
+.vs-editor-breadcrumb-bar {
+  display: flex;
+  align-items: center;
+  height: 23px;
+  flex: 0 0 23px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--vs-divider);
+  background: var(--vs-editor-bg);
+  color: var(--vs-text-tertiary);
+  font-size: 11px;
+}
+
+.vs-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.vs-crumb {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.vs-crumb-sep {
+  display: grid;
+  place-items: center;
+  color: var(--vs-text-disabled);
+}
+
+.vs-crumb-current {
+  color: var(--vs-text-secondary);
+}
+
+.vs-editor-dirty {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: var(--vs-accent-text);
+}
+
+.vs-editor-host {
+  flex: 1;
+  min-height: 0;
+}
+
+.vs-empty-editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--vs-text-tertiary);
+  background: var(--vs-editor-bg);
+}
+
+.vs-empty-title {
+  font-size: 20px;
+  color: var(--vs-text-secondary);
+  font-weight: 300;
+}
+
+.vs-empty-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11.5px;
+}
+
+.vs-empty-lines .vs-key {
+  margin-right: 8px;
+}
+
+/* ------------------------------------------------------------ bottom panel */
+
+.vs-bottom {
+  display: flex;
+  flex-direction: column;
+  height: 240px;
+  flex: 0 0 240px;
+  border-top: 1px solid var(--vs-panel-border);
+  background: var(--vs-env-background);
+  min-height: 0;
+}
+
+.vs-bottom-tabs {
+  display: flex;
+  align-items: stretch;
+  height: 30px;
+  flex: 0 0 30px;
+  background: var(--vs-file-tab);
+  border-bottom: 1px solid var(--vs-panel-border);
+  padding: 0 4px;
+}
+
+.vs-bottom-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  color: var(--vs-file-tab-text);
+  border-bottom: 2px solid transparent;
+}
+
+.vs-bottom-tab:hover {
+  color: var(--vs-file-tab-text-active);
+  background: var(--vs-file-tab-hover-bg);
+}
+
+.vs-bottom-tab.active {
+  color: var(--vs-file-tab-text-active);
+  background: var(--vs-env-background);
+  border-bottom-color: var(--vs-accent);
+}
+
+.vs-bottom-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.vs-text-btn {
+  color: var(--vs-text-secondary);
+  font-size: 11.5px;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.vs-text-btn:hover {
+  background: var(--vs-command-bar-hover);
+  color: var(--vs-text-primary);
+}
+
+.vs-bottom-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+}
+
+.vs-badge {
+  min-width: 16px;
+  height: 15px;
+  padding: 0 4px;
+  border-radius: 7px;
+  background: var(--vs-control-fill);
+  color: var(--vs-text-secondary);
+  font-size: 10px;
+  display: inline-grid;
+  place-items: center;
+}
+
+.vs-badge.error {
+  background: color-mix(in srgb, var(--vs-error) 22%, transparent);
+  color: var(--vs-error);
+}
+
+.vs-badge.warn {
+  background: color-mix(in srgb, var(--vs-warning) 22%, transparent);
+  color: var(--vs-warning);
+}
+
+.vs-errorlist {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  font-size: 11.5px;
+}
+
+.vs-table-head,
+.vs-table-row {
+  display: grid;
+  grid-template-columns: 26px 92px 1fr 130px 160px 48px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  height: 22px;
+  white-space: nowrap;
+}
+
+.vs-table-head {
+  color: var(--vs-text-tertiary);
+  border-bottom: 1px solid var(--vs-divider);
+  background: var(--vs-header);
+}
+
+.vs-table-body {
+  overflow: auto;
+  flex: 1;
+}
+
+.vs-table-row:hover {
+  background: var(--vs-list-hover);
+}
+
+.vs-table-row span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.col-sev {
+  display: grid;
+  place-items: center;
+}
+
+.sev-error {
+  color: var(--vs-error);
+  display: inline-flex;
+}
+.sev-warn {
+  color: var(--vs-warning);
+  display: inline-flex;
+}
+.sev-info {
+  color: var(--vs-caution);
+  display: inline-flex;
+}
+
+.vs-panel-empty {
+  padding: 18px;
+  color: var(--vs-text-tertiary);
+  font-size: 11.5px;
+  line-height: 1.7;
+}
+
+.vs-output {
+  margin: 0;
+  padding: 8px 12px;
+  flex: 1;
+  overflow: auto;
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--vs-text-secondary);
+  white-space: pre-wrap;
+}
+
+.vs-terminal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 11.5px;
+  background: var(--vs-editor-bg);
+}
+
+.vs-terminal-body {
+  flex: 1;
+  overflow: auto;
+  padding: 6px 10px;
+  line-height: 1.55;
+}
+
+.vs-term-line {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.vs-term-line.cmd {
+  color: var(--vs-accent-text);
+}
+
+.vs-term-line.out {
+  color: var(--vs-text-secondary);
+}
+
+.vs-term-line.err {
+  color: var(--vs-error);
+}
+
+.vs-term-line.info {
+  color: var(--vs-text-tertiary);
+  font-style: italic;
+}
+
+.vs-terminal-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 8px;
+}
+
+.vs-terminal-prompt {
+  color: var(--vs-success);
+  white-space: nowrap;
+}
+
+.vs-terminal-input input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--vs-text-primary);
+}
+
+.vs-gitpane {
+  flex: 1;
+  overflow: auto;
+  padding: 6px 10px;
+  font-size: 11.5px;
+}
+
+.vs-git-branch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px 8px;
+  color: var(--vs-text-secondary);
+}
+
+.vs-git-branch .vs-muted {
+  margin-left: auto;
+}
+
+.vs-git-file {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 3px;
+}
+
+.vs-git-file:hover {
+  background: var(--vs-list-hover);
+}
+
+.vs-git-status {
+  width: 14px;
+  color: var(--vs-accent);
+  font-weight: 700;
+}
+
+/* -------------------------------------------------------------- properties */
+
+.vs-props {
+  flex: 1;
+  overflow: auto;
+  padding: 8px;
+  font-size: 11.5px;
+}
+
+.vs-props-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px 10px;
+  border-bottom: 1px solid var(--vs-divider);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.vs-props-section {
+  color: var(--vs-text-tertiary);
+  padding: 9px 6px 4px;
+  border-bottom: 1px solid var(--vs-divider);
+  margin-bottom: 4px;
+}
+
+.vs-props-row {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 8px;
+  padding: 3px 6px;
+  align-items: center;
+}
+
+.vs-props-row > span:first-child {
+  color: var(--vs-text-tertiary);
+}
+
+.vs-props-value {
+  color: var(--vs-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------- status bar */
+
+.vs-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+  flex: 0 0 24px;
+  background: var(--vs-status-bar);
+  color: var(--vs-on-accent);
+  font-size: 11.5px;
+  padding: 0 4px;
+  user-select: none;
+}
+
+.vs-statusbar.building {
+  background: var(--vs-status-bar-building);
+}
+
+.vs-statusbar.debugging {
+  background: var(--vs-status-bar-debugging);
+}
+
+.vs-status-left,
+.vs-status-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.vs-status-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 3px;
+  color: #ffffffe0;
+  white-space: nowrap;
+}
+
+.vs-status-item:hover {
+  background: var(--vs-status-hover, #ffffff20);
+}
+
+.vs-status-item.strong {
+  color: #fff;
+}
+
+.vs-status-item.muted {
+  color: #ffffffb0;
+}
+
+.vs-status-item.dim {
+  color: #ffffff80;
+}
+
+.vs-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--vs-success);
+}
+
+/* ------------------------------------------------------------------ palette */
+
+.vs-overlay {
+  position: fixed;
+  inset: 0;
+  background: #00000055;
+  display: flex;
+  justify-content: center;
+  padding-top: 72px;
+  z-index: 500;
+}
+
+.vs-palette {
+  width: 660px;
+  max-height: 62vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--vs-menu-bg);
+  border: 1px solid var(--vs-menu-border);
+  border-radius: 5px;
+  box-shadow: 0 14px 40px #000000aa;
+  overflow: hidden;
+}
+
+.vs-palette-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--vs-divider);
+}
+
+.vs-palette-input input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: var(--vs-text-primary);
+}
+
+.vs-palette-hint {
+  color: var(--vs-text-tertiary);
+  font-size: 10.5px;
+}
+
+.vs-palette-list {
+  overflow: auto;
+  padding: 4px;
+}
+
+.vs-palette-group {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 8px 4px;
+  color: var(--vs-text-tertiary);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.vs-palette-note {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.vs-palette-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 3px;
+  color: var(--vs-text-primary);
+}
+
+.vs-palette-row.active {
+  background: var(--vs-accent);
+  color: var(--vs-on-accent);
+}
+
+.vs-palette-row.active .vs-palette-path,
+.vs-palette-row.active .vs-palette-group-label,
+.vs-palette-row.active .vs-palette-shortcut {
+  color: #00000099;
+}
+
+.vs-palette-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vs-palette-group-label {
+  margin-left: auto;
+  color: var(--vs-text-tertiary);
+  font-size: 10.5px;
+}
+
+.vs-palette-shortcut {
+  color: var(--vs-text-tertiary);
+  font-size: 10.5px;
+  min-width: 78px;
+  text-align: right;
+}
+
+.vs-palette-path {
+  margin-left: auto;
+  color: var(--vs-text-tertiary);
+  font-size: 10.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 45%;
+}
+
+.vs-palette-empty {
+  padding: 20px;
+  text-align: center;
+  color: var(--vs-text-tertiary);
+}
+
+/* ------------------------------------------------------------------ modals */
+
+.vs-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: #00000066;
+  display: grid;
+  place-items: center;
+  z-index: 600;
+}
+
+.vs-modal {
+  background: var(--vs-menu-bg);
+  border: 1px solid var(--vs-menu-border);
+  border-radius: 6px;
+  box-shadow: 0 18px 48px #000000b0;
+  overflow: hidden;
+  color: var(--vs-text-primary);
+}
+
+.vs-modal-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--vs-header);
+  border-bottom: 1px solid var(--vs-divider);
+  font-size: 12.5px;
+}
+
+.vs-modal-close {
+  cursor: default;
+  color: var(--vs-text-tertiary);
+  font-size: 16px;
+  line-height: 1;
+  padding: 0 4px;
+}
+
+.vs-modal-close:hover {
+  color: var(--vs-text-primary);
+}
+
+.vs-modal-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 60vh;
+  overflow: auto;
+}
+
+.vs-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--vs-divider);
+  background: var(--vs-header);
+}
+
+.vs-modal-buttons {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.vs-btn {
+  height: 26px;
+  padding: 0 16px;
+  border-radius: 3px;
+  background: var(--vs-control-fill);
+  border: 1px solid var(--vs-control-stroke);
+  color: var(--vs-text-primary);
+}
+
+.vs-btn:hover {
+  background: var(--vs-control-fill-hover);
+}
+
+.vs-btn.primary {
+  background: var(--vs-accent);
+  border-color: transparent;
+  color: var(--vs-on-accent);
+  font-weight: 600;
+}
+
+.vs-btn.primary:hover {
+  background: var(--vs-accent-secondary);
+}
+
+.vs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.vs-field label {
+  color: var(--vs-text-tertiary);
+  font-size: 11px;
+}
+
+.vs-field input {
+  height: 28px;
+  padding: 0 8px;
+  background: var(--vs-combo-bg);
+  border: 1px solid var(--vs-combo-border);
+  border-radius: 3px;
+  outline: none;
+}
+
+.vs-field input:focus {
+  border-color: var(--vs-accent);
+}
+
+.vs-browser {
+  border: 1px solid var(--vs-divider);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.vs-browser-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--vs-divider);
+  background: var(--vs-header);
+}
+
+.vs-browser-drives {
+  display: flex;
+  gap: 4px;
+}
+
+.vs-chip {
+  padding: 1px 7px;
+  border-radius: 3px;
+  background: var(--vs-control-fill);
+  border: 1px solid var(--vs-control-stroke);
+  font-size: 11px;
+}
+
+.vs-chip:hover {
+  background: var(--vs-control-fill-hover);
+}
+
+.vs-browser-list {
+  height: 220px;
+  overflow: auto;
+  padding: 4px;
+}
+
+.vs-browser-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 23px;
+  padding: 0 6px;
+  border-radius: 3px;
+}
+
+.vs-browser-row:hover {
+  background: var(--vs-list-hover);
+}
+
+.vs-browser-error {
+  color: var(--vs-error);
+  padding: 8px;
+  font-size: 11.5px;
+}
+
+.vs-browser-empty {
+  padding: 12px;
+  color: var(--vs-text-disabled);
+}
+
+.vs-muted {
+  color: var(--vs-text-tertiary);
+}
+
+.vs-muted.small {
+  font-size: 10.5px;
+}
+
+.vs-about {
+  display: flex;
+  gap: 18px;
+}
+
+.vs-about-logo {
+  width: 72px;
+  height: 72px;
+}
+
+.vs-about h2 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.vs-about p {
+  margin: 0 0 10px;
+  line-height: 1.6;
+}
+
+.vs-about-facts {
+  display: grid;
+  grid-template-columns: 168px 1fr;
+  gap: 5px 12px;
+  margin: 0 0 10px;
+  font-size: 11.5px;
+}
+
+.vs-about-facts dt {
+  color: var(--vs-text-tertiary);
+}
+
+.vs-about-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* -------------------------------------------------------------- start page */
+
+.vs-start {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--vs-env-bg, #1c1c1c);
+  color: var(--vs-text-primary);
+}
+
+.vs-start-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 54px;
+  flex: 0 0 54px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--vs-divider);
+}
+
+.vs-start-logo {
+  width: 26px;
+  height: 26px;
+}
+
+.vs-start-product {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.vs-start-tag {
+  color: var(--vs-text-tertiary);
+  font-size: 11px;
+  padding-left: 10px;
+  border-left: 1px solid var(--vs-divider);
+}
+
+.vs-start-header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vs-start-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.vs-start-left {
+  width: 330px;
+  flex: 0 0 330px;
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-right: 1px solid var(--vs-divider);
+}
+
+.vs-start-action {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+  padding: 11px 13px;
+  border-radius: 5px;
+  border: 1px solid var(--vs-control-stroke);
+  background: var(--vs-control-fill);
+}
+
+.vs-start-action:hover {
+  background: var(--vs-control-fill-hover);
+  border-color: var(--vs-control-stroke);
+}
+
+.vs-start-action.primary {
+  background: var(--vs-accent-subtle);
+  border-color: var(--vs-accent);
+}
+
+.vs-start-action-title {
+  font-size: 12.5px;
+  color: var(--vs-text-primary);
+}
+
+.vs-start-action-hint {
+  font-size: 10.5px;
+  color: var(--vs-text-tertiary);
+}
+
+.vs-start-continue {
+  margin-top: auto;
+  text-align: left;
+  color: var(--vs-link);
+  padding: 8px 2px;
+}
+
+.vs-start-continue:hover {
+  text-decoration: underline;
+}
+
+.vs-start-main {
+  flex: 1;
+  padding: 30px 40px;
+  overflow: auto;
+}
+
+.vs-start-main h1 {
+  margin: 0 0 22px;
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.vs-start-subhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--vs-text-tertiary);
+  font-size: 11.5px;
+  margin-bottom: 8px;
+}
+
+.vs-start-recents {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 820px;
+}
+
+.vs-start-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  text-align: left;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  background: var(--vs-control-fill);
+}
+
+.vs-start-card:hover {
+  background: var(--vs-control-fill-hover);
+  border-color: var(--vs-accent);
+}
+
+.vs-start-card-icon {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  background: var(--vs-accent-subtle);
+  color: var(--vs-accent-text);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.vs-start-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.vs-start-card-title {
+  font-size: 12.5px;
+}
+
+.vs-start-card-path {
+  font-size: 10.5px;
+  color: var(--vs-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vs-start-card-open {
+  margin-left: auto;
+  color: var(--vs-link);
+  font-size: 11.5px;
+}
+
+.vs-start-empty {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border: 1px dashed var(--vs-control-stroke);
+  border-radius: 6px;
+  color: var(--vs-text-secondary);
+  line-height: 1.6;
+}
+
+.vs-start-empty p {
+  margin: 4px 0 0;
+  color: var(--vs-text-tertiary);
+}
+
+.vs-start-footer {
+  margin-top: 34px;
+  padding-top: 16px;
+  border-top: 1px solid var(--vs-divider);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--vs-text-tertiary);
+  font-size: 11px;
+}
+
+.vs-start-tip strong {
+  color: var(--vs-text-secondary);
+  margin-right: 6px;
+}
+
+.vs-start-version {
+  font-size: 10.5px;
+  color: var(--vs-text-disabled);
+}
+
+.vs-nuget-list {
+  background: #1f1f1f;
+  border: 1px solid #333;
+  max-height: 180px;
+  overflow: auto;
+  padding: 4px 0;
+}
+
+.vs-nuget-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+.vs-nuget-row:hover {
+  background: #2e2e2e;
+}
+
+.vs-nuget-id {
+  color: var(--vs-text-primary);
+}
+
+.vs-nuget-search {
+  display: flex;
+  gap: 6px;
+}
+
+.vs-nuget-search input {
+  flex: 1;
+}
+
+.vs-nuget-results {
+  margin-top: 6px;
+  max-height: 200px;
+  overflow: auto;
+  border: 1px solid var(--vs-control-stroke, #333);
+  background: var(--vs-panel-background, #1f1f1f);
+}
+
+.vs-nuget-result {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--vs-divider, #2a2a2a);
+  font-size: 12px;
+}
+
+.vs-nuget-result-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vs-nuget-result-head .vs-nuget-id {
+  font-weight: 600;
+}
+
+.vs-nuget-desc {
+  color: var(--vs-text-secondary, #cfcfcf);
+  margin-top: 2px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.vs-github-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vs-account-dialog-head {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.vs-account-dialog-note {
+  margin: 10px 0 14px;
+  line-height: 1.5;
+}
+
+.vs-github-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.vs-github-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.vs-commit-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--vs-divider, #2a2a2a);
+}
+
+.vs-commit-box textarea {
+  resize: vertical;
+  min-height: 40px;
+  font-family: inherit;
+  font-size: 12px;
+  padding: 4px 6px;
+  background: var(--vs-panel-background, #1f1f1f);
+  color: var(--vs-text-primary, #fff);
+  border: 1px solid var(--vs-control-stroke, #3a3a3a);
+}
+
+.vs-commit-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.vs-copilot {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 380px;
+  overflow: auto;
+}
+
+.vs-copilot-msg {
+  border-left: 3px solid var(--vs-accent, #0078d4);
+  padding: 6px 10px;
+  background: var(--vs-panel-background, #1f1f1f);
+}
+
+.vs-copilot-msg.assistant {
+  border-left-color: var(--vs-text-tertiary, #888);
+}
+
+.vs-copilot-role {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--vs-text-tertiary, #aaa);
+  margin-bottom: 4px;
+}
+
+.vs-copilot-text {
+  white-space: pre-wrap;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.vs-copilot-input {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.vs-copilot-input input {
+  flex: 1;
+}
+
+/* ---- New Project (Visual Studio style) ---- */
+.vs-modal:has(.vs-np) {
+  max-height: 90vh;
+}
+
+.vs-np {
+  display: flex;
+  gap: 14px;
+  min-height: 430px;
+}
+
+.vs-np-side {
+  width: 190px;
+  flex: 0 0 190px;
+  border-right: 1px solid var(--vs-divider, #3f3f46);
+  padding-right: 10px;
+}
+
+.vs-np-side-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--vs-text-tertiary, #9d9d9d);
+  margin: 4px 0 8px;
+}
+
+.vs-np-group {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 6px 10px;
+  margin-bottom: 2px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--vs-text-secondary, #ccc);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.vs-np-group:hover {
+  background: var(--vs-command-bar-hover, #2a2d2e);
+}
+
+.vs-np-group.active {
+  background: var(--vs-accent, #0f6cbd);
+  color: #fff;
+}
+
+.vs-np-select {
+  width: 100%;
+}
+
+.vs-np-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.vs-np-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  max-height: 240px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.vs-np-card {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  text-align: left;
+  padding: 10px;
+  border: 1px solid var(--vs-menu-border, #3f3f46);
+  border-radius: 5px;
+  background: var(--vs-panel-background, #1f1f1f);
+  color: var(--vs-text-primary, #eee);
+  cursor: pointer;
+}
+
+.vs-np-card:hover {
+  border-color: var(--vs-accent, #0f6cbd);
+}
+
+.vs-np-card.active {
+  border-color: var(--vs-accent, #0f6cbd);
+  box-shadow: inset 0 0 0 1px var(--vs-accent, #0f6cbd);
+}
+
+.vs-np-card-icon {
+  flex: 0 0 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  background: rgba(120, 90, 200, 0.25);
+  color: #c9b6ff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.vs-np-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.vs-np-card-name {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.vs-np-card-desc {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--vs-text-tertiary, #a0a0a0);
+}
+
+.vs-np-form {
+  border-top: 1px solid var(--vs-divider, #3f3f46);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vs-np-form-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.vs-np-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--vs-text-secondary, #ccc);
+}
+
+.vs-np-check input {
+  width: auto;
+  margin: 0;
+}
+
+.vs-np-form select,
+.vs-np-select {
+  background: var(--vs-input-background, #2b2b2b);
+  color: var(--vs-text-primary, #eee);
+  border: 1px solid var(--vs-input-border, #3f3f46);
+  border-radius: 3px;
+  padding: 6px 8px;
+  font-size: 12.5px;
+}
+
+.vs-muted.small,
+.vs-muted.small code {
+  font-size: 11px;
+}

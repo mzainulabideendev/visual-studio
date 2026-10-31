@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.vite/
+Release/
+Release3/
+installer/payload/
+*.tsbuildinfo
+*.log
+sample/**/bin/
+sample/**/obj/
